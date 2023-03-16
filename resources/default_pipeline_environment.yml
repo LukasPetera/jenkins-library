@@ -436,6 +436,19 @@ steps:
       dockerImage: 'ruby:2.5.3-stretch'
       dockerName: 'bundler'
       dockerWorkspace: ''
+  wdi5AllureExecuteTests:
+    buildTool: 'npm'
+    failOnError: true
+    stashContent:
+      - 'tests'
+    maven:
+      dockerImage: 'maven:3.5-jdk-8'
+      dockerName: 'maven'
+      dockerWorkspace: ''
+    npm:
+      dockerImage: 'node:lts-buster'
+      dockerName: 'npm'
+      dockerWorkspace: '/home/node'   
   slackSendNotification:
     color: "${['SUCCESS': '#8cc04f', 'FAILURE': '#d54c53', 'ABORTED': '#949393', 'UNSTABLE': '#f6b44b', 'PAUSED': '#24b0d5', 'UNKNOWN': '#d54cc4'].get(buildStatus, '#d54cc4')}"
     defaultMessage: "${buildStatus}: Job ${env.JOB_NAME} <${env.BUILD_URL}|#${env.BUILD_NUMBER}>"
