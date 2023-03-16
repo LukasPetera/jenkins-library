@@ -103,6 +103,8 @@ void call(Map parameters = [:], Closure body) {
       
                     //TODO: Execute WDI5 Tests & Allure reports
                 
+                    sh returnStatus: true, script: "echo XXXXXXXXXXXXXX"
+                
             } catch (err) {
                 if (config.failOnError) {
                     throw err
