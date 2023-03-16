@@ -42,20 +42,6 @@ import groovy.text.GStringTemplateEngine
      * Only if `testRepository` is provided: Credentials for a protected testRepository
      * @possibleValues Jenkins credentials id
      */
-    'gitSshKeyCredentialsId',
-    /**
-     * Defines the id of the user/password credentials to be used to connect to a Selenium Hub. The credentials are provided in the environment variables `PIPER_SELENIUM_HUB_USER` and `PIPER_SELENIUM_HUB_PASSWORD`.
-     */
-    'seleniumHubCredentialsId',
-    /** @see dockerExecute */
-    'sidecarEnvVars',
-    /** @see dockerExecute */
-    'sidecarImage',
-    /** @see dockerExecute */
-    'sidecarName',
-    /** @see dockerExecute */
-    'sidecarVolumeBind',
-    /** @see dockerExecute */
     'stashContent',
     /**
      * Define an additional repository where the test implementation is located.
@@ -67,17 +53,7 @@ import groovy.text.GStringTemplateEngine
 @Field Set PARAMETER_KEYS = STEP_CONFIG_KEYS
 
 /**
- * Enables UI test execution with Selenium in a sidecar container.
- *
- * The step executes a closure (see example below) connecting to a sidecar container with a Selenium Server.
- *
- * When executing in a
- *
- * * local Docker environment, please make sure to set Selenium host to **`selenium`** in your tests.
- * * Kubernetes environment, plese make sure to set Seleniums host to **`localhost`** in your tests.
- *
- * !!! note "Proxy Environments"
- *     If work in an environment containing a proxy, please make sure that `localhost`/`selenium` is added to your proxy exclusion list, e.g. via environment variable `NO_PROXY` & `no_proxy`. You can pass those via parameters `dockerEnvVars` and `sidecarEnvVars` directly to the containers if required.
+ * TODO: Documentdation
  */
 @GenerateDocumentation
 void call(Map parameters = [:], Closure body) {
@@ -106,11 +82,6 @@ void call(Map parameters = [:], Closure body) {
 
         // Inject config via env vars so that scripts running inside selenium can respond to that
         config.dockerEnvVars = config.dockerEnvVars ?: [:]
-        config.dockerEnvVars.PIPER_SELENIUM_HOSTNAME = config.dockerName
-        config.dockerEnvVars.PIPER_SELENIUM_WEBDRIVER_HOSTNAME = config.sidecarName
-        if(config.containerPortMappings[config.sidecarImage]){
-            config.dockerEnvVars.PIPER_SELENIUM_WEBDRIVER_PORT = '' + (config.containerPortMappings[config.sidecarImage][0]?.containerPort ?: '')
-        }
 
         dockerExecute(
                 script: script,
@@ -119,11 +90,7 @@ void call(Map parameters = [:], Closure body) {
                 dockerImage: config.dockerImage,
                 dockerName: config.dockerName,
                 dockerOptions: config.dockerOptions,
-                dockerWorkspace: config.dockerWorkspace,
-                sidecarEnvVars: config.sidecarEnvVars,
-                sidecarImage: config.sidecarImage,
-                sidecarName: config.sidecarName,
-                sidecarVolumeBind: config.sidecarVolumeBind
+                dockerWorkspace: config.dockerWorkspace
         ) {
             try {
                 sh returnStatus: true, script: """
@@ -133,13 +100,9 @@ void call(Map parameters = [:], Closure body) {
                 config.stashContent = config.testRepository
                     ?[GitUtils.handleTestRepository(this, config)]
                     :utils.unstashAll(config.stashContent)
-                if (config.seleniumHubCredentialsId) {
-                    withCredentials([usernamePassword(credentialsId: config.seleniumHubCredentialsId, passwordVariable: 'PIPER_SELENIUM_HUB_PASSWORD', usernameVariable: 'PIPER_SELENIUM_HUB_USER')]) {
-                        body()
-                    }
-                } else {
-                    body()
-                }
+      
+                    //TODO: Execute WDI5 Tests & Allure reports
+                
             } catch (err) {
                 if (config.failOnError) {
                     throw err
