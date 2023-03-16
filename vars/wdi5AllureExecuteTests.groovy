@@ -18,8 +18,6 @@ import groovy.text.GStringTemplateEngine
      */
     'buildTool',
     /** @see dockerExecute */
-    'containerPortMappings',
-    /** @see dockerExecute */
     'dockerEnvVars',
     /** @see dockerExecute */
     'dockerImage',
@@ -85,7 +83,6 @@ void call(Map parameters = [:], Closure body) {
 
         dockerExecute(
                 script: script,
-                containerPortMappings: config.containerPortMappings,
                 dockerEnvVars: config.dockerEnvVars,
                 dockerImage: config.dockerImage,
                 dockerName: config.dockerName,
