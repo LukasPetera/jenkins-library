@@ -99,7 +99,7 @@ void call(Map parameters = [:], Closure body) {
                     :utils.unstashAll(config.stashContent)
       
                     //TODO: Execute WDI5 Tests & Allure reports
-                
+                    sh returnStatus: true, script: echo "XXXXXXXXXXXXXX"
                     sh returnStatus: true, script: "echo XXXXXXXXXXXXXX"
                 
             } catch (err) {
