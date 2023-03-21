@@ -440,7 +440,6 @@ steps:
     buildTool: 'npm'
     failOnError: true
     sh returnStatus: true, script: echo "XXXXXXXXXXXXXX"
-    sh returnStatus: true, script: "echo XXXXXXXXXXXXXX"
     stashContent:
       - 'tests'
     maven:
