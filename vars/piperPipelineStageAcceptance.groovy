@@ -34,6 +34,8 @@ import static com.sap.piper.Prerequisites.checkScript
     'uiVeri5ExecuteTests',
     /** Executes end to end tests by running the npm script 'ci-e2e' defined in the project's package.json file. */
     'npmExecuteEndToEndTests'
+    /** to do*/
+    'wdi5AllureExecuteTests'
 ]
 @Field Set STEP_CONFIG_KEYS = GENERAL_CONFIG_KEYS.plus(STAGE_STEP_KEYS)
 @Field Set PARAMETER_KEYS = STEP_CONFIG_KEYS
@@ -67,6 +69,7 @@ void call(Map parameters = [:]) {
         .addIfEmpty('newmanExecute', script.commonPipelineEnvironment.configuration.runStep?.get(stageName)?.newmanExecute)
         .addIfEmpty('uiVeri5ExecuteTests', script.commonPipelineEnvironment.configuration.runStep?.get(stageName)?.uiVeri5ExecuteTests)
         .addIfEmpty('npmExecuteEndToEndTests', script.commonPipelineEnvironment.configuration.runStep?.get(stageName)?.npmExecuteEndToEndTests)
+        .addIfEmpty('wdi5AllureExecuteTests', script.commonPipelineEnvironment.configuration.runStep?.get(stageName)?.wdi5AllureExecuteTests)
         .use()
 
     piperStageWrapper (script: script, stageName: stageName) {
@@ -132,6 +135,13 @@ void call(Map parameters = [:]) {
         if (config.npmExecuteEndToEndTests) {
             durationMeasure(script: script, measurementName: 'npmExecuteEndToEndTests_duration') {
                 npmExecuteEndToEndTests script: script, stageName: stageName
+            }
+        }
+        
+        if (config.wdi5AllureExecuteTests) {
+            durationMeasure(script: script, measurementName: 'wdi5AllureExecuteTests_duration') {
+                publishResults = true
+                wdi5AllureExecuteTests script: script
             }
         }
 
