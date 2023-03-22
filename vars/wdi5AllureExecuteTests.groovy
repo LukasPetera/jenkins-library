@@ -101,6 +101,8 @@ void call(Map parameters = [:], Closure body) {
                     //TODO: Execute WDI5 Tests & Allure reports
                     sh returnStatus: true, script: echo "XXXXXXXXXXXXXX"
                     sh returnStatus: true, script: "echo XXXXXXXXXXXXXX"
+                    sh 'node_modules/.bin/wdio run wdio.conf.js --spec test/dataPreparation.js --tester_user=${username_tester} --tester_pass=${password_tester} --baseUrl $BASEURL'
+                    sh 'node_modules/.bin/wdio run wdio.conf.js --tester_user=${username_tester} --tester_pass=${password_tester} --baseUrl $BASEURL'
                 
             } catch (err) {
                 if (config.failOnError) {
