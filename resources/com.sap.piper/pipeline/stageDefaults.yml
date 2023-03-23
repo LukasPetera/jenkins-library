@@ -65,6 +65,7 @@ spec:
             conditions:
               - configKey: 'appUrls'
           - name: wdi5AllureExecuteTests
+              - configKey: 'buildTool'
      - displayName: Security
        steps:
           - name: checkmarxExecuteScan
