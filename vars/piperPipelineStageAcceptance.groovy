@@ -138,12 +138,12 @@ void call(Map parameters = [:]) {
             }
         }
         
-        if (config.wdi5AllureExecuteTests) {
-            durationMeasure(script: script, measurementName: 'wdi5AllureExecuteTests_duration') {
-                publishResults = true
+//         if (config.wdi5AllureExecuteTests) {
+//             durationMeasure(script: script, measurementName: 'wdi5AllureExecuteTests_duration') {
+//                 publishResults = true
                 wdi5AllureExecuteTests script: script
-            }
-        }
+//             }
+//         }
 
         if (publishResults) {
             testsPublishResults publishMap
