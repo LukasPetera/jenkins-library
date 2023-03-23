@@ -64,6 +64,9 @@ spec:
           - name: npmExecuteEndToEndTests
             conditions:
               - configKey: 'appUrls'
+          - name: wdi5AllureExecuteTests
+            conditions:
+              - filePattern: '**/wdio.conf.js'
      - displayName: Security
        steps:
           - name: checkmarxExecuteScan
