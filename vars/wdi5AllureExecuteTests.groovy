@@ -55,10 +55,15 @@ import groovy.text.GStringTemplateEngine
  */
 @GenerateDocumentation
 void call(Map parameters = [:], Closure body) {
+    echo "XXXXXXXXXXXXXX_1"
+
     handlePipelineStepErrors(stepName: STEP_NAME, stepParameters: parameters) {
         def script = checkScript(this, parameters) ?: this
         def utils = parameters?.juStabUtils ?: new Utils()
         String stageName = parameters.stageName ?: env.STAGE_NAME
+
+        echo "XXXXXXXXXXXXXX_2"
+        sh returnStatus: true, script: "echo SHXXXXXXXXXXXXXX_2"
 
         // load default & individual configuration
         Map config = ConfigurationHelper.newInstance(this)
@@ -99,7 +104,9 @@ void call(Map parameters = [:], Closure body) {
                     :utils.unstashAll(config.stashContent)
       
                     //TODO: Execute WDI5 Tests & Allure reports
-                    sh returnStatus: true, script: "echo XXXXXXXXXXXXXX"
+                    echo "XXXXXXXXXXXXXX_3"
+                    sh returnStatus: true, script: "echo SHXXXXXXXXXXXXXX_3"
+
 //                     sh 'node_modules/.bin/wdio run wdio.conf.js --spec test/dataPreparation.js --tester_user=${username_tester} --tester_pass=${password_tester} --baseUrl $BASEURL'
 //                     sh 'node_modules/.bin/wdio run wdio.conf.js --tester_user=${username_tester} --tester_pass=${password_tester} --baseUrl $BASEURL'
                 
