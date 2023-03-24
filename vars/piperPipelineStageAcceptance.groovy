@@ -51,7 +51,7 @@ import static com.sap.piper.Prerequisites.checkScript
 @GenerateStageDocumentation(defaultStageName = "Acceptance")
 void call(Map parameters = [:]) {
     
-    echo "ACCEPTANCE STAGE DEBUG: XXXXXXXXXXX"
+    echo "Acceptance Stage Debug - External RePo: XXXXXXXXXXXXXX"
 
     def script = checkScript(this, parameters) ?: this
     def utils = parameters.juStabUtils ?: new Utils()
